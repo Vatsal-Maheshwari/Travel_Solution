@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "travel-solution-repo"
+version = "0.1.0"
+description = ""
+authors = ["Vatsal Maheshwari <Vatsal@hashtrust.in>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+streamlit = "^1.29.0"
+usellm = "^0.0.7"
+amadeus = "^9.0.0"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

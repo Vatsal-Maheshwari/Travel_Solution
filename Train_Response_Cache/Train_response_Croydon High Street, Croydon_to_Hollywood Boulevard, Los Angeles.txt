@@ -1,0 +1,1 @@
+{"geocoded_waypoints": [{"geocoder_status": "OK", "place_id": "ChIJI5qjtjYHdkgRzEKsXRCl2gI", "types": ["establishment", "food", "meal_delivery", "point_of_interest", "restaurant"]}, {"geocoder_status": "OK", "place_id": "ChIJ1QdSJDu_woARaYa9QUkFWK4", "types": ["route"]}], "routes": [], "status": "ZERO_RESULTS"}
