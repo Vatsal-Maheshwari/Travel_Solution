@@ -169,7 +169,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
 
 def generate_option_line_cab(route_info, location_info, trip_no):
     if trip_no == 1:
-        if float(route_info['journey_transit_duration'].split()[0]) > 1.0:
+        if float(route_info['journey_transit_distance'].split()[0]) > 1.0:
             hours = route_info['journey_transit_duration'] / (60 * 60)
             total_hours = hours
             rounded_hours = math.floor(total_hours)
@@ -185,7 +185,7 @@ def generate_option_line_cab(route_info, location_info, trip_no):
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0])
     else:
-        if float(route_info['journey_transit_duration'].split()[0]) > 1.0:
+        if float(route_info['journey_transit_distance'].split()[0]) > 1.0:
             hours = route_info['journey_transit_duration'] / (60 * 60)
             total_hours = hours
             rounded_hours = math.floor(total_hours)

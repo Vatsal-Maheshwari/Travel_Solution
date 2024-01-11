@@ -132,7 +132,7 @@ def create_final_option(journey_info, origin, destination):
                                                 option=1)
     cab_from_place_to_location = get_road_route(google_ready_keywords(journey_info['journey_transit_end']),
                                                 destination, option=2)
-    if int(cab_from_location_to_place['journey_transit_duration']) > 600:
+    if float(cab_from_location_to_place['journey_transit_distance'].split()[0]) > 1.0:
         hours = cab_from_location_to_place['journey_transit_duration'] / (60 * 60)
         total_hours = hours
         rounded_hours = math.floor(total_hours)
