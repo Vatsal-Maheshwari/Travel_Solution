@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "travel-solution-repo"
+name = "travel-solution"
 version = "0.1.0"
 description = ""
 authors = ["Vatsal Maheshwari <Vatsal@hashtrust.in>"]

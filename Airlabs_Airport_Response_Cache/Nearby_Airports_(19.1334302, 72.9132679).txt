@@ -1,0 +1,1 @@
+[{"name": "Chhatrapati Shivaji Maharaj International Airport", "iata_code": "BOM", "icao_code": "VABB", "lat": 19.09, "lng": 72.87, "country_code": "IN", "popularity": 168159, "distance": 6.888}, {"name": "Juhu Aerodrome", "iata_code": null, "icao_code": "VAJJ", "lat": 19.1, "lng": 72.83, "country_code": "IN", "popularity": 10, "distance": 9.55}]

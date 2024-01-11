@@ -50,9 +50,12 @@ def get_flight_route(origin: str, destination: str):
     destination_address_record, destination_address = get_address_response(destination, 'Destination')
 
     booking_request = determine_booking_request(origin_address_record, destination_address_record)
-
-    origin_location, origin_airports_data = get_nearby_airports_data_amadeus(origin_address)
-    destination_location, destination_airports_data = get_nearby_airports_data_amadeus(destination_address)
+    if booking_request == "Domestic Search":
+        origin_location, origin_airports_data = get_nearby_airports_data_airlabs(origin_address)
+        destination_location, destination_airports_data = get_nearby_airports_data_airlabs(destination_address)
+    else:
+        origin_location, origin_airports_data = get_nearby_airports_data_amadeus(origin_address)
+        destination_location, destination_airports_data = get_nearby_airports_data_amadeus(destination_address)
 
     if origin_airports_data and destination_airports_data:
         final_option = generate_final_option(booking_request, origin, origin_airports_data, destination,
@@ -101,7 +104,7 @@ def get_nearby_airports_data_airlabs(address_data):
     else:
         kwargs = {"lat": location[0], "lng": location[1], "distance": 50, "api_key": AIRLABS_API_KEY}
         url = 'https://airlabs.co/api/v9/nearby'
-        airports_data = requests.get(url, headers={'Content-Type': 'application/json'}, data=kwargs).json()['response'][
+        airports_data = requests.get(url, data=kwargs, timeout=60).json()['response'][
             'airports']
         f = open(
             f"./Airlabs_Airport_Response_Cache/Nearby_Airports_({location[0]}, {location[1]}).txt",
@@ -138,12 +141,18 @@ def get_nearby_airports_data_amadeus(address_data):
 def generate_final_option(booking_request, origin, origin_airports_data, destination, destination_airports_data):
     origin_airport_info, origin_airport_distance = (
         f"{origin_airports_data[0]['name']} {origin_airports_data[0]['subType']}, {origin_airports_data[0]['address']['cityName']}" if booking_request == 'International Search' else \
-            origin_airports_data[0]['name'], origin_airports_data[0]['distance']['value'])
+            origin_airports_data[0]['name'],
+        origin_airports_data[0]['distance']['value'] if booking_request == 'International Search' else
+        origin_airports_data[0]['distance'])
     destination_airport_info, destination_airport_distance = (
         f"{destination_airports_data[0]['name']} {destination_airports_data[0]['subType']}, {destination_airports_data[0]['address']['cityName']}" if booking_request == 'International Search' else \
-            destination_airports_data[0]['name'], destination_airports_data[0]['distance']['value'])
+            destination_airports_data[0]['name'],
+        destination_airports_data[0]['distance']['value'] if booking_request == 'International Search' else
+        destination_airports_data[0]['distance'])
 
-    if origin_airport_distance > 10:
+    print(origin_airport_distance, type(origin_airport_distance), "Origin")
+    print(destination_airport_distance, type(destination_airport_distance), "Destination")
+    if origin_airport_distance > 100.0:
         travel_from_location_to_place = get_train_route(origin, origin_airport_info, option=3)
         final_option_cab = generate_option_line_cab(travel_from_location_to_place[1],
                                                     travel_from_location_to_place[1]['journey_destination'], 1)
@@ -153,7 +162,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         cab_from_location_to_place = get_road_route(origin, origin_airport_info, option=1)
         final_option_line_0 = generate_option_line_cab(cab_from_location_to_place, origin_airport_info, 1)
 
-    if destination_airport_distance > 10:
+    if destination_airport_distance > 100.0:
         travel_from_place_to_location = get_train_route(destination_airport_info, destination, option=4)
         final_option_train = generate_option_line_cab(travel_from_place_to_location[1], destination_airport_info, 2)
         final_option_cab = generate_option_line_rail(travel_from_place_to_location[0],
