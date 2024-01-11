@@ -143,7 +143,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         f"{destination_airports_data[0]['name']} {destination_airports_data[0]['subType']}, {destination_airports_data[0]['address']['cityName']}" if booking_request == 'International Search' else \
             destination_airports_data[0]['name'], destination_airports_data[0]['distance']['value'])
 
-    if origin_airport_distance > 100:
+    if origin_airport_distance > 10:
         travel_from_location_to_place = get_train_route(origin, origin_airport_info, option=3)
         final_option_cab = generate_option_line_cab(travel_from_location_to_place[1],
                                                     travel_from_location_to_place[1]['journey_destination'], 1)
@@ -153,7 +153,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         cab_from_location_to_place = get_road_route(origin, origin_airport_info, option=1)
         final_option_line_0 = generate_option_line_cab(cab_from_location_to_place, origin_airport_info, 1)
 
-    if destination_airport_distance > 100:
+    if destination_airport_distance > 10:
         travel_from_place_to_location = get_train_route(destination_airport_info, destination, option=4)
         final_option_train = generate_option_line_cab(travel_from_place_to_location[1], destination_airport_info, 2)
         final_option_cab = generate_option_line_rail(travel_from_place_to_location[0],
@@ -169,7 +169,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
 
 def generate_option_line_cab(route_info, location_info, trip_no):
     if trip_no == 1:
-        if int(route_info['journey_transit_duration']) > 600:
+        if float(route_info['journey_transit_duration'].split()[0]) > 1.0:
             hours = route_info['journey_transit_duration'] / (60 * 60)
             total_hours = hours
             rounded_hours = math.floor(total_hours)
@@ -185,7 +185,7 @@ def generate_option_line_cab(route_info, location_info, trip_no):
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0])
     else:
-        if int(route_info['journey_transit_duration']) > 600:
+        if float(route_info['journey_transit_duration'].split()[0]) > 1.0:
             hours = route_info['journey_transit_duration'] / (60 * 60)
             total_hours = hours
             rounded_hours = math.floor(total_hours)
