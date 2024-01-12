@@ -59,8 +59,8 @@ def get_road_route(origin: str, destination: str, avoid: str = "",
     if resp.get('status') == 'OK':
         route = resp['routes'][0]['legs'][0]
         journey_info = {
-            "journey_origin": route['start_address'].split(',')[0:-2],
-            "journey_destination": route['end_address'].split(',')[0:-2],
+            "journey_origin": route['start_address'].split(',')[0:-2] if len(route['start_address'].split(',')) > 2 else route['start_address'].split(',')[0],
+            "journey_destination": route['end_address'].split(',')[0:-2] if len(route['end_address'].split(',')) > 2 else route['end_address'].split(',')[0],
             "journey_transit_distance": route['distance']['text'],
             "journey_transit_duration": route['duration']['value']
         }
