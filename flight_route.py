@@ -150,8 +150,6 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         destination_airports_data[0]['distance']['value'] if booking_request == 'International Search' else
         destination_airports_data[0]['distance'])
 
-    print(origin_airport_distance, type(origin_airport_distance), "Origin")
-    print(destination_airport_distance, type(destination_airport_distance), "Destination")
     if origin_airport_distance > 100.0:
         travel_from_location_to_place = get_train_route(origin, origin_airport_info, option=3)
         final_option_cab = generate_option_line_cab(travel_from_location_to_place[1],
