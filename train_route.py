@@ -26,13 +26,14 @@ def google_ready_keywords(place):
         return place
 
 
-def get_train_route(origin: str, destination: str, avoid: str = "", mode: str = "transit",
+def get_train_route(origin: str, destination: str, car_status: bool, avoid: str = "", mode: str = "transit",
                     transit_mode: str = 'rail', transit_routing_preference: str = "", option: int = 0):
     """
 
     :param option:
     :param origin:
     :param destination:
+    :param car_status:
     :param avoid:
     :param mode:
     :param transit_mode:
@@ -74,15 +75,16 @@ def get_train_route(origin: str, destination: str, avoid: str = "", mode: str = 
         if option != 0:
             if option == 3:
                 cab_from_location_to_place = get_road_route(origin,
-                                                            google_ready_keywords(journey_info['journey_transit_start']),
-                                                            option=1)
+                                                            google_ready_keywords(
+                                                                journey_info['journey_transit_start']),
+                                                            car_status, option=1)
                 return journey_info, cab_from_location_to_place
             else:
                 cab_from_place_to_location = get_road_route(google_ready_keywords(journey_info['journey_transit_end']),
-                                                            destination, option=2)
+                                                            destination, car_status, option=2)
                 return journey_info, cab_from_place_to_location
         else:
-            final_option = create_final_option(journey_info, origin, destination)
+            final_option = create_final_option(journey_info, origin, destination, car_status)
             return final_option
 
     return "No Train Routes Found!"
@@ -127,21 +129,28 @@ def extract_journey_info(resp):
     return train_journey_info
 
 
-def create_final_option(journey_info, origin, destination):
+def create_final_option(journey_info, origin, destination, car_status):
     cab_from_location_to_place = get_road_route(origin, google_ready_keywords(journey_info['journey_transit_start']),
-                                                option=1)
+                                                car_status, option=1)
     cab_from_place_to_location = get_road_route(google_ready_keywords(journey_info['journey_transit_end']),
-                                                destination, option=2)
+                                                destination, car_status, option=2)
     if float(cab_from_location_to_place['journey_transit_distance'].split()[0]) > 1.0:
         hours = cab_from_location_to_place['journey_transit_duration'] / (60 * 60)
         total_hours = hours
         rounded_hours = math.floor(total_hours)
         remaining_minutes = (total_hours - rounded_hours) * 60
-        final_option_line_0 = "Take a Cab for {} from {} towards {} for {}, ".format(
-            cab_from_location_to_place['journey_transit_distance'],
-            ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
-            journey_info['journey_transit_start'].split(",")[0],
-            f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
+        if car_status:
+            final_option_line_0 = "Drive your Car for {} from {} towards {} for {}, ".format(
+                cab_from_location_to_place['journey_transit_distance'],
+                ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
+                journey_info['journey_transit_start'].split(",")[0],
+                f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
+        else:
+            final_option_line_0 = "Take a Cab for {} from {} towards {} for {}, ".format(
+                cab_from_location_to_place['journey_transit_distance'],
+                ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
+                journey_info['journey_transit_start'].split(",")[0],
+                f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
     else:
         final_option_line_0 = "Walk for {} from {} towards {}, ".format(
             cab_from_location_to_place['journey_transit_distance'],

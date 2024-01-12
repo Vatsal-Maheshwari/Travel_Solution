@@ -36,11 +36,13 @@ def google_ready_keywords(place):
         return place
 
 
-def get_flight_route(origin: str, destination: str):
+def get_flight_route(origin: str, destination: str, car_status: bool, user_class: str = "Economy"):
     """
 
     :param origin:
     :param destination:
+    :param car_status:
+    :param user_class:
     :return:
     """
     origin = google_ready_keywords(origin)
@@ -59,7 +61,7 @@ def get_flight_route(origin: str, destination: str):
 
     if origin_airports_data and destination_airports_data:
         final_option = generate_final_option(booking_request, origin, origin_airports_data, destination,
-                                             destination_airports_data)
+                                             destination_airports_data, car_status)
         return final_option
 
     return "No Flights Routes Found!"
@@ -138,7 +140,8 @@ def get_nearby_airports_data_amadeus(address_data):
     return location, airports_data
 
 
-def generate_final_option(booking_request, origin, origin_airports_data, destination, destination_airports_data):
+def generate_final_option(booking_request, origin, origin_airports_data, destination, destination_airports_data,
+                          car_status):
     origin_airport_info, origin_airport_distance = (
         f"{origin_airports_data[0]['name']} {origin_airports_data[0]['subType']}, {origin_airports_data[0]['address']['cityName']}" if booking_request == 'International Search' else \
             origin_airports_data[0]['name'],
@@ -151,41 +154,49 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         destination_airports_data[0]['distance'])
 
     if origin_airport_distance > 100.0:
-        travel_from_location_to_place = get_train_route(origin, origin_airport_info, option=3)
+        travel_from_location_to_place = get_train_route(origin, origin_airport_info, car_status, option=3)
         final_option_cab = generate_option_line_cab(travel_from_location_to_place[1],
-                                                    travel_from_location_to_place[1]['journey_destination'], 1)
+                                                    travel_from_location_to_place[1]['journey_destination'], car_status, 1)
         final_option_train = generate_option_line_cab_rail(travel_from_location_to_place[0], origin_airport_info, 1)
         final_option_line_0 = final_option_cab + final_option_train
     else:
-        cab_from_location_to_place = get_road_route(origin, origin_airport_info, option=1)
-        final_option_line_0 = generate_option_line_cab(cab_from_location_to_place, origin_airport_info, 1)
+        cab_from_location_to_place = get_road_route(origin, origin_airport_info, car_status, option=1)
+        final_option_line_0 = generate_option_line_cab(cab_from_location_to_place, origin_airport_info, car_status, 1)
 
     if destination_airport_distance > 100.0:
-        travel_from_place_to_location = get_train_route(destination_airport_info, destination, option=4)
+        travel_from_place_to_location = get_train_route(destination_airport_info, destination, car_status, option=4)
         final_option_train = generate_option_line_rail(travel_from_place_to_location[0], destination_airport_info, 2)
         final_option_cab = generate_option_line_cab(travel_from_place_to_location[1],
-                                                     travel_from_place_to_location[1]['journey_origin'], 2)
+                                                    travel_from_place_to_location[1]['journey_origin'], car_status, 2)
         final_option_line_2 = final_option_train + final_option_cab
     else:
-        cab_from_place_to_location = get_road_route(destination_airport_info, destination, option=2)
-        final_option_line_2 = generate_option_line_cab(cab_from_place_to_location, destination_airport_info, 2)
+        cab_from_place_to_location = get_road_route(destination_airport_info, destination, car_status, option=2)
+        final_option_line_2 = generate_option_line_cab(cab_from_place_to_location, destination_airport_info, car_status, 2)
     final_option_line_1 = "Board the Airplane from {} to {}, ".format(origin_airport_info, destination_airport_info)
     final_option = final_option_line_0 + final_option_line_1 + final_option_line_2
     return final_option
 
 
-def generate_option_line_cab(route_info, location_info, trip_no):
+def generate_option_line_cab(route_info, location_info, car_status, trip_no):
     if trip_no == 1:
         if float(route_info['journey_transit_distance'].split()[0]) > 1.0:
             hours = route_info['journey_transit_duration'] / (60 * 60)
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "Take a Cab for {} from {} towards {} for {}, ".format(
-                route_info['journey_transit_distance'],
-                ''.join(route_info['journey_origin']).replace(',  ', ', '),
-                ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
-                f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
+            if car_status:
+                return "Drive Your Car for {} from {} towards {} for {}, ".format(
+                    route_info['journey_transit_distance'],
+                    ''.join(route_info['journey_origin']).replace(',  ', ', '),
+                    ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
+                    f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
+
+            else:
+                return "Take a Cab for {} from {} towards {} for {}, ".format(
+                    route_info['journey_transit_distance'],
+                    ''.join(route_info['journey_origin']).replace(',  ', ', '),
+                    ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
+                    f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
             return "Walk for {} from {} towards {}, ".format(
                 route_info['journey_transit_distance'],

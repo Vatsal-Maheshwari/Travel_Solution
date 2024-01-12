@@ -23,16 +23,17 @@ def google_ready_keywords(place):
         return place
 
 
-def get_road_route(origin: str, destination: str, avoid: str = "",
+def get_road_route(origin: str, destination: str, car_status: bool, avoid: str = "",
                    mode: str = "driving", transit_routing_preference: str = "", option: int = 0):
     """
 
     :param origin:
     :param destination:
-    :param option:
+    :param car_status:
     :param avoid:
     :param mode:
     :param transit_routing_preference:
+    :param option:
     :return:
     """
     origin = google_ready_keywords(origin)
@@ -70,8 +71,10 @@ def get_road_route(origin: str, destination: str, avoid: str = "",
             hours = journey_info['journey_transit_duration'] / 3600
             rounded_hours = math.floor(hours)
             remaining_minutes = (hours - rounded_hours) * 60
-
-            final_option = f"Cab from {''.join(journey_info['journey_origin']).replace(',  ', '', )} towards {''.join(journey_info['journey_destination']).replace(',  ', '', )} "
+            if car_status:
+                final_option = f"Drive from {''.join(journey_info['journey_origin']).replace(',  ', '', )} towards {''.join(journey_info['journey_destination']).replace(',  ', '', )} "
+            else:
+                final_option = f"Cab from {''.join(journey_info['journey_origin']).replace(',  ', '', )} towards {''.join(journey_info['journey_destination']).replace(',  ', '', )} "
             final_option += f"(Travel Duration: {rounded_hours} hours {int(remaining_minutes)} mins, "
             final_option += f"Travel Distance: {journey_info['journey_transit_distance']})."
             return final_option
