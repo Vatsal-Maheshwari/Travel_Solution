@@ -18,8 +18,8 @@ def main():
 
     # origin = "The Old Schools, Trinity Ln, Cambridge"
     # destination = "Dumbreck Rd, Bellahouston, Glasgow"
-    origin = "Langton Pl, Bury Saint Edmunds, UK"
-    destination = "Dumbreck Rd, Glasgow, UK"
+    # origin = "Langton Pl, Bury Saint Edmunds, UK"
+    # destination = "Dumbreck Rd, Glasgow, UK"
     # origin = "Katwaria Sarai"
     # destination = "IIT Bombay"
     # origin = "The Old Schools, Trinity Ln, Cambridge"

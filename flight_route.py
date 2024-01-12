@@ -162,9 +162,9 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
 
     if destination_airport_distance > 100.0:
         travel_from_place_to_location = get_train_route(destination_airport_info, destination, option=4)
-        final_option_train = generate_option_line_cab(travel_from_place_to_location[1], destination_airport_info, 2)
-        final_option_cab = generate_option_line_rail(travel_from_place_to_location[0],
-                                                     travel_from_place_to_location[0]['journey_origin'], 2)
+        final_option_train = generate_option_line_rail(travel_from_place_to_location[0], destination_airport_info, 2)
+        final_option_cab = generate_option_line_cab(travel_from_place_to_location[1],
+                                                     travel_from_place_to_location[1]['journey_origin'], 2)
         final_option_line_2 = final_option_train + final_option_cab
     else:
         cab_from_place_to_location = get_road_route(destination_airport_info, destination, option=2)
@@ -232,16 +232,16 @@ def generate_option_line_rail(route_info, location_info, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "Take a Rail for {} from {} towards {} for {}.".format(
+            return "Take a Rail for {} from {} towards {} for {}. ".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
-                ''.join(route_info['journey_destination']).replace(',  ', ', '),
+                ''.join(route_info['journey_transit_end']).replace(',  ', ', '),
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
             return "Walk for {} from {} towards {}.".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
-                ''.join(route_info['journey_destination']).replace(',  ', ', '))
+                ''.join(route_info['journey_transit_end']).replace(',  ', ', '))
 
 
 def generate_option_line_cab_rail(route_info, location_info, trip_no):
