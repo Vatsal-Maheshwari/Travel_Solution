@@ -6,7 +6,7 @@ authors = ["Vatsal Maheshwari <Vatsal@hashtrust.in>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7"
+python = "<=3.10"
 requests = "^2.31.0"
 streamlit = "^1.29.0"
 usellm = "^0.0.7"
