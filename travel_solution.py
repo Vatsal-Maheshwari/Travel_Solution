@@ -16,7 +16,8 @@ def main():
 
     user_travel_preference = st.text_input("Enter the Travel Mode(Taxi, Rail or Flight) You Prefer for your Journey.")
 
-    user_budget = st.text_input("Enter the Flight Class(Economy, First or Business Class) you prefer to Travel.")
+    # user_budget = st.text_input("Enter the Flight Class(Economy, First or Business Class) you prefer to Travel.")
+    user_budget = ""
 
     user_car_availability = st.text_input("Do you prefer your personnel car for travel ?")
 

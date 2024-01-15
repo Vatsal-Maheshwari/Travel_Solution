@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.31.0"
-streamlit = "^1.29.0"
+streamlit = "^1.30.0"
 usellm = "^0.0.7"
 amadeus = "^9.0.0"
 python-dotenv = "^1.0.0"
