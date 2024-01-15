@@ -21,8 +21,9 @@ def main():
 
     user_car_availability = st.text_input("Do you prefer your personnel car for travel ?")
 
-    user_car_max_distance = st.text_input("If answer to above question is yes, "
-                                          "then how much distant you would prefer to travel by your personnel car? ")
+    # user_car_max_distance = st.text_input("If answer to above question is yes, "
+    #                                       "then how much distance you would prefer to travel by your personnel car?")
+    user_car_max_distance = ""
 
     # origin = "The Old Schools, Trinity Ln, Cambridge"
     # destination = "Dumbreck Rd, Bellahouston, Glasgow"
@@ -47,17 +48,22 @@ def main():
 
         if user_travel_preference == "Rail":
             train_option = get_train_route(user_origin, user_destination, car_status)
-            print("Train Option: \n", train_option, "\n\n")
-            st.markdown(''':green[Train Option:] ''' + train_option)
-
+            # print("Train Option: \n", train_option, "\n\n")
+            st.markdown(''':green[Train Option:] ''')
+            for i in range(0, len(train_option.split(','))):
+                st.markdown(train_option.split(',')[i], unsafe_allow_html=True)
         elif user_travel_preference == "Flight":
             flight_option = get_flight_route(user_origin, user_destination, car_status, user_budget)
-            print("Flight Option: \n", flight_option, "\n\n")
-            st.markdown(''':green[Flight Option:] ''' + flight_option)
+            # print("Flight Option: \n", flight_option, "\n\n")
+            st.markdown(''':green[Flight Option:]''')
+            for i in range(0, len(flight_option.split('*'))):
+                st.markdown(flight_option.split('*')[i], unsafe_allow_html=True)
         else:
             cab_option = get_road_route(user_origin, user_destination, car_status)
-            print("Cab Option: \n", cab_option, "\n\n")
-            st.markdown(''':green[Cab Option:] ''' + cab_option)
+            # print("Cab Option: \n", cab_option, "\n\n")
+            st.markdown(''':green[Cab Option:] ''')
+            for i in range(0, len(cab_option.split(','))):
+                st.markdown(cab_option.split(',')[i], unsafe_allow_html=True)
 
 
 if __name__ == '__main__':
