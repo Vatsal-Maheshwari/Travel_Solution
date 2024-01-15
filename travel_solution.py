@@ -48,22 +48,21 @@ def main():
 
         if user_travel_preference == "Rail":
             train_option = get_train_route(user_origin, user_destination, car_status)
-            # print("Train Option: \n", train_option, "\n\n")
+            print("Train Option: \n", train_option, "\n\n")
             st.markdown(''':green[Train Option:] ''')
             for i in range(0, len(train_option.split(','))):
                 st.markdown(train_option.split(',')[i], unsafe_allow_html=True)
         elif user_travel_preference == "Flight":
             flight_option = get_flight_route(user_origin, user_destination, car_status, user_budget)
-            # print("Flight Option: \n", flight_option, "\n\n")
+            print("Flight Option: \n", flight_option, "\n\n")
             st.markdown(''':green[Flight Option:]''')
             for i in range(0, len(flight_option.split('*'))):
                 st.markdown(flight_option.split('*')[i], unsafe_allow_html=True)
         else:
             cab_option = get_road_route(user_origin, user_destination, car_status)
-            # print("Cab Option: \n", cab_option, "\n\n")
+            print("Cab Option: \n", cab_option, "\n\n")
             st.markdown(''':green[Cab Option:] ''')
-            for i in range(0, len(cab_option.split(','))):
-                st.markdown(cab_option.split(',')[i], unsafe_allow_html=True)
+            st.markdown(cab_option)
 
 
 if __name__ == '__main__':
