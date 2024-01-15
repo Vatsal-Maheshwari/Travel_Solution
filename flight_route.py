@@ -174,7 +174,7 @@ def generate_final_option(booking_request, origin, origin_airports_data, destina
         cab_from_place_to_location = get_road_route(destination_airport_info, destination, car_status, option=2)
         final_option_line_2 = generate_option_line_cab(cab_from_place_to_location, destination_airport_info, car_status,
                                                        2)
-    final_option_line_1 = "\n2). Board the Airplane from {} to {},* ".format(origin_airport_info,
+    final_option_line_1 = "Board the Airplane from {} to {},* ".format(origin_airport_info,
                                                                              destination_airport_info)
     final_option = final_option_line_0 + final_option_line_1 + final_option_line_2
     return final_option
@@ -188,20 +188,20 @@ def generate_option_line_cab(route_info, location_info, car_status, trip_no):
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
             if car_status:
-                return "1). Drive Your Car for {} from {} towards {} for {},*".format(
+                return "Drive Your Car for {} from {} towards {} for {},*".format(
                     route_info['journey_transit_distance'],
                     ''.join(route_info['journey_origin']).replace(',  ', ', '),
                     ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                     f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
 
             else:
-                return "1). Take a Cab for {} from {} towards {} for {},*".format(
+                return "Take a Cab for {} from {} towards {} for {},*".format(
                     route_info['journey_transit_distance'],
                     ''.join(route_info['journey_origin']).replace(',  ', ', '),
                     ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                     f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "1). Walk for {} from {} towards {},*".format(
+            return "Walk for {} from {} towards {},*".format(
                 route_info['journey_transit_distance'],
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0])
@@ -211,13 +211,13 @@ def generate_option_line_cab(route_info, location_info, car_status, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "\n3). Take a Cab for {} from {} towards {} for {}.*".format(
+            return "Take a Cab for {} from {} towards {} for {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_destination']).replace(',  ', ', '),
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "\n3). Walk for {} from {} towards {}.*".format(
+            return "Walk for {} from {} towards {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_destination']).replace(',  ', ', '))
@@ -230,13 +230,13 @@ def generate_option_line_rail(route_info, location_info, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "\n2). Take a Rail for {} from {} towards {} for {},*".format(
+            return "Take a Rail for {} from {} towards {} for {},*".format(
                 route_info['journey_transit_distance'],
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "\n2). Walk for {} from {} towards {},*".format(
+            return "Walk for {} from {} towards {},*".format(
                 route_info['journey_transit_distance'],
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0])
@@ -246,13 +246,13 @@ def generate_option_line_rail(route_info, location_info, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "\n4). Take a Rail for {} from {} towards {} for {}.*".format(
+            return "Take a Rail for {} from {} towards {} for {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_transit_end']).replace(',  ', ', '),
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "\n4). Walk for {} from {} towards {}.*".format(
+            return "Walk for {} from {} towards {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_transit_end']).replace(',  ', ', '))
@@ -265,13 +265,13 @@ def generate_option_line_cab_rail(route_info, location_info, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "\n5). Take a Rail for {} from {} towards {} for {},*".format(
+            return "Take a Rail for {} from {} towards {} for {},*".format(
                 route_info['journey_transit_distance'],
                 ''.join(route_info['journey_transit_start']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "\n5). Walk for {} from {} towards {},*".format(
+            return "Walk for {} from {} towards {},*".format(
                 route_info['journey_transit_distance'],
                 ''.join(route_info['journey_origin']).replace(',  ', ', '),
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0])
@@ -281,13 +281,13 @@ def generate_option_line_cab_rail(route_info, location_info, trip_no):
             total_hours = hours
             rounded_hours = math.floor(total_hours)
             remaining_minutes = (total_hours - rounded_hours) * 60
-            return "\n5). Take a Rail for {} from {} towards {} for {}.*".format(
+            return "Take a Rail for {} from {} towards {} for {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_transit_end']).replace(',  ', ', '),
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            return "\n5). Walk for {} from {} towards {}.*".format(
+            return "Walk for {} from {} towards {}.*".format(
                 route_info['journey_transit_distance'],
                 ''.join(location_info).replace(',  ', ', ') if len(location_info) > 1 else location_info[0],
                 ''.join(route_info['journey_destination']).replace(',  ', ', '))

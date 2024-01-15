@@ -140,19 +140,19 @@ def create_final_option(journey_info, origin, destination, car_status):
         rounded_hours = math.floor(total_hours)
         remaining_minutes = (total_hours - rounded_hours) * 60
         if car_status:
-            final_option_line_0 = "1). Drive your Car for {} from {} towards {} for {}, ".format(
+            final_option_line_0 = "Drive your Car for {} from {} towards {} for {}, ".format(
                 cab_from_location_to_place['journey_transit_distance'],
                 ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
                 journey_info['journey_transit_start'].split(",")[0],
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
         else:
-            final_option_line_0 = "1). Take a Cab for {} from {} towards {} for {}, ".format(
+            final_option_line_0 = "Take a Cab for {} from {} towards {} for {}, ".format(
                 cab_from_location_to_place['journey_transit_distance'],
                 ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
                 journey_info['journey_transit_start'].split(",")[0],
                 f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
     else:
-        final_option_line_0 = "1). Walk for {} from {} towards {}, ".format(
+        final_option_line_0 = "Walk for {} from {} towards {}, ".format(
             cab_from_location_to_place['journey_transit_distance'],
             ''.join(cab_from_location_to_place['journey_origin']).replace(",  ", ", "),
             journey_info['journey_transit_start'].split(",")[0],
@@ -161,7 +161,7 @@ def create_final_option(journey_info, origin, destination, car_status):
     total_hours = hours
     rounded_hours = math.floor(total_hours)
     remaining_minutes = (total_hours - rounded_hours) * 60
-    final_option_line_1 = "\n2). Board the Train for {} from {} to {} for {}, ".format(
+    final_option_line_1 = "Board the Train for {} from {} to {} for {}, ".format(
         journey_info['journey_transit_distance'],
         journey_info['journey_transit_start'].split(",")[0],
         journey_info['journey_transit_end'].split(",")[0],
@@ -171,13 +171,13 @@ def create_final_option(journey_info, origin, destination, car_status):
         total_hours = hours
         rounded_hours = math.floor(total_hours)
         remaining_minutes = (total_hours - rounded_hours) * 60
-        final_option_line_2 = "\n3). Take a Cab for {} from {} towards {} for {}.".format(
+        final_option_line_2 = "Take a Cab for {} from {} towards {} for {}.".format(
             cab_from_place_to_location['journey_transit_distance'],
             journey_info['journey_transit_end'].split(",")[0],
             ''.join(cab_from_place_to_location['journey_destination']).replace(",  ", ", "),
             f"{rounded_hours} hours {int(remaining_minutes)} mins" if rounded_hours != 0 else f"{int(remaining_minutes)} mins")
     else:
-        final_option_line_2 = "\n3). Walk for {} from {} towards {}.".format(
+        final_option_line_2 = "Walk for {} from {} towards {}.".format(
             cab_from_place_to_location['journey_transit_distance'],
             journey_info['journey_transit_end'].split(",")[0],
             ''.join(cab_from_place_to_location['journey_destination']).replace(",  ", ", "),

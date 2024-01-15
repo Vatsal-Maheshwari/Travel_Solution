@@ -46,19 +46,34 @@ def main():
             car_status = True
         print(f"\nReceived Journey Request from {user_origin} to {user_destination}\n")
 
-        if user_travel_preference == "Rail":
+        if user_travel_preference in ["Rail", "rail", "RAIL"]:
             train_option = get_train_route(user_origin, user_destination, car_status)
             print("Train Option: \n", train_option, "\n\n")
             st.markdown(''':green[Train Option:] ''')
             for i in range(0, len(train_option.split(','))):
                 st.markdown(train_option.split(',')[i], unsafe_allow_html=True)
-        elif user_travel_preference == "Flight":
+        elif user_travel_preference in ["Flight", "flight", "FLIGHT"]:
             flight_option = get_flight_route(user_origin, user_destination, car_status, user_budget)
             print("Flight Option: \n", flight_option, "\n\n")
             st.markdown(''':green[Flight Option:]''')
             for i in range(0, len(flight_option.split('*'))):
                 st.markdown(flight_option.split('*')[i], unsafe_allow_html=True)
+        elif user_travel_preference in ["Cab", "cab", "CAB"]:
+            cab_option = get_road_route(user_origin, user_destination, car_status)
+            print("Cab Option: \n", cab_option, "\n\n")
+            st.markdown(''':green[Cab Option:] ''')
+            st.markdown(cab_option)
         else:
+            train_option = get_train_route(user_origin, user_destination, car_status)
+            print("Train Option: \n", train_option, "\n\n")
+            st.markdown(''':green[Train Option:] ''')
+            for i in range(0, len(train_option.split(','))):
+                st.markdown(train_option.split(',')[i], unsafe_allow_html=True)
+            flight_option = get_flight_route(user_origin, user_destination, car_status, user_budget)
+            print("Flight Option: \n", flight_option, "\n\n")
+            st.markdown(''':green[Flight Option:]''')
+            for i in range(0, len(flight_option.split('*'))):
+                st.markdown(flight_option.split('*')[i], unsafe_allow_html=True)
             cab_option = get_road_route(user_origin, user_destination, car_status)
             print("Cab Option: \n", cab_option, "\n\n")
             st.markdown(''':green[Cab Option:] ''')
